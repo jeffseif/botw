@@ -23,6 +23,7 @@ class Actor:
         'Opal',
         'Ruby',
         'Sapphire',
+        'SheikMask',
         'Topaz',
     )
 
