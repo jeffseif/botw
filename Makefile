@@ -2,10 +2,10 @@
 all: run
 
 .PHONY: run
-run: dat.json
-	@jq -S '.' $<
+run: armor.json
+	@jq -S '.' $^
 
-dat.json: venv dat
+armor.json: venv dat
 	@$</bin/python \
 		-m botw.main > $@
 

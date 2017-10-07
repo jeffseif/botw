@@ -11,4 +11,5 @@ dist/
 *.egg-info
 venv/
 dat/
-dat.json
+*.json
+*.xml
