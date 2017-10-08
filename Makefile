@@ -3,7 +3,7 @@ all: run
 
 .PHONY: run
 run: armor.json
-	@jq -S '.' $^
+	@cat $^ | ./botw/pretty
 
 armor.json: venv dat
 	@$</bin/python \
