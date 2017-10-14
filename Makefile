@@ -1,8 +1,8 @@
 .PHONY: all
-all: run
+all: armor
 
-.PHONY: run
-run: armor.json
+.PHONY: armor
+armor: armor.json
 	@cat $^ | ./botw/pretty
 
 armor.json: venv dat

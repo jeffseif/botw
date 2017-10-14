@@ -5,25 +5,25 @@ Breath of the Wild Data Mining
 ## Usage
 
 ```bash
-make
+make armor
 ...
-> Full Korok armor
-30: Acorn
-15: Energetic Rhino Beetle
-15: Courser Bee Honey
+> Full Ancient armor
+90: Ancient Gear
+65: Ancient Spring
+50: Ancient Shaft
+24: Ancient Core
+20: Ancient Screw
+6: Giant Ancient Core
 3: Star Fragment
-2: Shard of Dinraal's Fang
-2: Shard of Dinraal's Horn
-2: Shard of Naydra's Fang
-2: Naydra's Scale
-2: Dinraal's Scale
-2: Shard of Naydra's Horn
-2: Naydra's Claw
-2: Dinraal's Claw
-2: Farosh's Claw
-2: Farosh's Scale
-2: Shard of Farosh's Horn
-2: Shard of Farosh's Fang
+...
+> All armors
+138: Luminous Stone
+90: Ancient Gear
+78: Bokoblin Guts
+75: Swift Violet
+65: Ancient Spring
+53: Lizalfos Tail
+50: Ancient Shaft
 ...
 ```
 
