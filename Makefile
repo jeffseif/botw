@@ -1,13 +1,21 @@
 .PHONY: all
-all: armor
+all: armors weapons
 
-.PHONY: armor
-armor: armor.json
+.PHONY: armors
+armors: armors.json
 	@cat $^ | ./botw/pretty
 
-armor.json: venv dat
+.PHONY: weapons
+weapons: weapons.json
+	@cat $^ | ./botw/pretty
+
+armors.json: venv dat
 	@$</bin/python \
-		-m botw.main > $@
+		-m botw.armors > $@
+
+weapons.json: venv dat
+	@$</bin/python \
+		-m botw.weapons > $@
 
 dat: gz/dat.tar.gz
 	@mkdir dat

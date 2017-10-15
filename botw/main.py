@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 
 
 DAT = './dat/'
+MISSING = '<MISSING NAME>'
 
 
 class InvalidActorException(Exception):
@@ -11,6 +12,29 @@ class InvalidActorException(Exception):
 
 
 class Actor:
+
+    def __init__(self, **kwargs):
+        self.__dict__ = kwargs
+
+    def __str__(self):
+        return '\n'.join(
+            '{:s}\t{:s}'.format(attr, repr(getattr(self, attr)))
+            for attr in sorted(self.__dict__)
+        )
+
+    @classmethod
+    def from_xml(cls, the_xml):
+        try:
+            return cls._from_xml(the_xml)
+        except AssertionError:
+            return
+        except AttributeError:
+            return
+        except TypeError:
+            return
+
+
+class Armor(Actor):
 
     ING_KEYS = tuple(
         ('normal0ItemName{:02d}'.format(n), 'normal0ItemNum{:02d}'.format(n))
@@ -27,44 +51,53 @@ class Actor:
         'Topaz',
     )
 
-    def __init__(self, **kwargs):
-        self.__dict__ = kwargs
-
-    def __str__(self):
-        return '\n'.join(
-            '{:s}\t{:s}'.format(attr, repr(getattr(self, attr)))
-            for attr in sorted(self.__dict__)
+    def __bool__(self):
+        return (
+            bool(self.series_name.strip())
+            and not 'Amiibo' in self.series_name
+            and self.series_name not in self.JEWELRY_SERIES
         )
 
     @classmethod
-    def from_xml(cls, the_xml):
-        try:
-            return cls(
-                #
-                defense = int(the_xml.get('armorDefenceAddLevel')),
-                stars = int(the_xml.get('armorStarNum')),
-                #
-                base_id = the_xml.find('mainModel').text,
-                id = the_xml.find('name').text,
-                series_id = the_xml.find('bfres').text,
-                series_name = the_xml.find('seriesArmorSeriesType').text,
-                #
-                ingredients = {
-                    the_xml.find(name_key).text: int(the_xml.get(number_key))
-                    for name_key, number_key in cls.ING_KEYS
-                    if the_xml.find(name_key) is not None
-                },
-            )
-        except AttributeError:
-            return
-        except TypeError:
-            return
+    def _from_xml(cls, the_xml):
+        return cls(
+            #
+            defense = int(the_xml.get('armorDefenceAddLevel')),
+            stars = int(the_xml.get('armorStarNum')),
+            #
+            id = the_xml.find('name').text,
+            series_name = the_xml.find('seriesArmorSeriesType').text,
+            #
+            ingredients = {
+                the_xml.find(name_key).text: int(the_xml.get(number_key))
+                for name_key, number_key in cls.ING_KEYS
+                if the_xml.find(name_key) is not None
+            },
+        )
 
-    def is_good(self):
+
+class Weapon(Actor):
+
+    MAX_ATTACK = 116
+
+    def __bool__(self):
         return (
-            self.series_name.strip()
-            and not 'Amiibo' in self.series_name
-            and self.series_name not in self.JEWELRY_SERIES
+            hasattr(self, 'id')
+            and self.attack > 0
+        )
+
+    @property
+    def max_attack(self):
+        return min(self.MAX_ATTACK, (self.attack + self.buff))
+
+    @classmethod
+    def _from_xml(cls, the_xml):
+        assert 'weapon' in the_xml.find('xlink').text.lower()
+        return cls(
+            attack = int(the_xml.get('attackPower')),
+            buff = int(the_xml.get('weaponCommonPoweredSharpAddAtkMax')),
+            durability = int(the_xml.get('generalLife')),
+            id = the_xml.find('name').text,
         )
 
 
@@ -82,34 +115,33 @@ def get_names():
     return armor
 
 
-def get_armors():
+def get_actors(cls):
     with open('{:s}ActorInfo.product.xml'.format(DAT), 'rt') as f:
         root = ET.parse(f).getroot()
     
     actors = root.find('Actors')
     return [
         actor
-        for actor in map(Actor.from_xml, actors)
+        for actor in map(cls.from_xml, actors)
         if actor is not None
-        if actor.is_good()
+        if actor
     ]
 
 
-def jsonify(format, key, ingredients):
+def summarize(title, name_counts):
     counts = defaultdict(int)
-    for ingredient, count in ingredients:
-        counts[ingredient] += count
+    for name, count in name_counts:
+        counts[name] += count
 
-    if not counts:
-        return
-
-    yield json.dumps({
-        'title': format.format(key),
-        'data': dict(counts)
-    })
+    if counts:
+        yield json.dumps({
+            'title': title,
+            'data': dict(counts)
+        })
 
 
-def slices(armors, names):
+
+def report_armors(armors):
 
     armor_ids = {
         armor.id
@@ -122,11 +154,10 @@ def slices(armors, names):
     }
 
     for series_name in sorted(series_names):
-        yield from jsonify(
-            'Full {:s} armor',
-            series_name,
+        yield from summarize(
+            'Full {:s} armor'.format(series_name),
             (
-                (names[ingredient], count)
+                (NAMES[ingredient], count)
                 for armor in armors
                 if armor.series_name == series_name
                 if armor.ingredients
@@ -136,11 +167,10 @@ def slices(armors, names):
         )
     
     for stars in range(6):
-        yield from jsonify(
-            'All armors at {:d} stars',
-            stars - 1,
+        yield from summarize(
+            'All armors at {:d} stars'.format(stars - 1),
             (
-                (names[ingredient], count)
+                (NAMES[ingredient], count)
                 for armor in armors
                 if armor.stars == stars
                 for ingredient, count in armor.ingredients.items()
@@ -148,11 +178,10 @@ def slices(armors, names):
             ),
         )
 
-    yield from jsonify(
+    yield from summarize(
         'All armors',
-        '',
         (
-            (names[ingredient], count)
+            (NAMES[ingredient], count)
             for armor in armors
             for ingredient, count in armor.ingredients.items()
             if ingredient not in armor_ids
@@ -160,12 +189,41 @@ def slices(armors, names):
     )
 
 
-def main():
-    names = get_names()
-    armors = get_armors()
-    for slice in slices(armors, names):
-        print(slice)
+def report_weapons(weapons):
+    yield from summarize(
+        'Weapon Base Attacks',
+        (
+            (NAMES.get(weapon.id, MISSING), weapon.attack)
+            for weapon in weapons
+        ),
+    )
+    return
+
+    yield from summarize(
+        'Weapon Max Attacks',
+        (
+            (NAMES.get(weapon.id, MISSING), weapon.max_attack)
+            for weapon in weapons
+        ),
+    )
+
+    yield from summarize(
+        'Weapon Durabilities',
+        (
+            (NAMES.get(weapon.id, MISSING), weapon.durability)
+            for weapon in weapons
+        ),
+    )
 
 
 if __name__ == '__main__':
-    main()
+    if 'armors' in __file__:
+        cls = Armor
+        reporter = report_armors
+    elif 'weapons' in __file__:
+        cls = Weapon
+        reporter = report_weapons
+
+    NAMES = get_names()
+    for report in reporter(get_actors(cls)):
+        print(report)

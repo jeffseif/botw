@@ -5,7 +5,7 @@ Breath of the Wild Data Mining
 ## Usage
 
 ```bash
-make armor
+make armors
 ...
 > Full Ancient armor
 90: Ancient Gear
