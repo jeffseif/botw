@@ -222,6 +222,8 @@ if __name__ == '__main__':
     elif 'weapons' in __file__:
         cls = Weapon
         reporter = report_weapons
+    else:
+        exit()
 
     NAMES = get_names()
     for report in reporter(get_actors(cls)):

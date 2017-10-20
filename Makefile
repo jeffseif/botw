@@ -2,18 +2,18 @@
 all: armors weapons
 
 .PHONY: armors
-armors: armors.json
+armors: dat/armors.json
 	@cat $^ | ./botw/pretty
 
 .PHONY: weapons
-weapons: weapons.json
+weapons: dat/weapons.json
 	@cat $^ | ./botw/pretty
 
-armors.json: venv dat
+dat/armors.json: venv dat botw/main.py
 	@$</bin/python \
 		-m botw.armors > $@
 
-weapons.json: venv dat
+dat/weapons.json: venv dat botw/main.py
 	@$</bin/python \
 		-m botw.weapons > $@
 
@@ -41,4 +41,3 @@ venv: requirements.txt
 clean:
 	@rm -rf dat/
 	@rm -rf venv/
-	@rm -f dat.json
