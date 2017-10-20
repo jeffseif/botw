@@ -197,7 +197,6 @@ def report_weapons(weapons):
             for weapon in weapons
         ),
     )
-    return
 
     yield from summarize(
         'Weapon Max Attacks',
