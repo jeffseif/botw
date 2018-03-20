@@ -1,43 +1,41 @@
+.SECONDARY:
+
+DAT = dat
+PRETTY = ./botw/pretty
+PYTHON = $(which python3)
+JSON_TO_MOD = $(shell basename $@ .json)
+mkdir = mkdir -p $(dir $@)
+
 .PHONY: all
-all: armors weapons
+all: armors.stdout weapons.stdout
 
-.PHONY: armors
-armors: dat/armors.json
-	@cat $^ | ./botw/pretty
+%.stdout: $(DAT)/%.json
+	@cat $^ | $(PRETTY)
 
-.PHONY: weapons
-weapons: dat/weapons.json
-	@cat $^ | ./botw/pretty
-
-dat/armors.json: venv dat botw/main.py
+$(DAT)/%.json: venv $(DAT)/ botw/main.py
 	@$</bin/python \
-		-m botw.armors > $@
+		-m botw.$(JSON_TO_MOD) > $@
 
-dat/weapons.json: venv dat botw/main.py
-	@$</bin/python \
-		-m botw.weapons > $@
-
-dat: gz/dat.tar.gz
-	@mkdir dat
+$(DAT)/: gz/$(DAT).tar.gz
+	@$(mkdir)
 	@tar \
 		--touch \
 		--extract \
 		--gunzip \
-		--file $^ \
+		--file $< \
 		--directory $@
 
 venv: requirements.txt
 	@virtualenv \
         	--no-site-packages \
-		--python=$(which python3) \
+		--python=$(PYTHON) \
 		$@
 	@$@/bin/pip install \
 		--requirement $<
 	@$@/bin/pip install \
 		--upgrade pip
-	@touch $@
 
 .PHONY: clean
 clean:
-	@rm -rf dat/
+	@rm -rf $(DAT)/
 	@rm -rf venv/
