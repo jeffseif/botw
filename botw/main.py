@@ -216,10 +216,12 @@ def report_weapons(weapons):
 
 
 if __name__ == '__main__':
-    if 'armors' in __file__:
+    from sys import argv
+    module = argv.pop()
+    if module == 'armors':
         cls = Armor
         reporter = report_armors
-    elif 'weapons' in __file__:
+    elif module == 'weapons':
         cls = Weapon
         reporter = report_weapons
     else:

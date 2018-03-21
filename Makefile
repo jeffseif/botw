@@ -14,7 +14,7 @@ all: armors.stdout weapons.stdout
 
 $(DAT)/%.json: venv $(DAT)/ botw/main.py
 	@$</bin/python \
-		-m botw.$(JSON_TO_MOD) > $@
+		-m botw.main $(JSON_TO_MOD) > $@
 
 $(DAT)/: gz/$(DAT).tar.gz
 	@$(mkdir)
@@ -34,6 +34,7 @@ venv: requirements.txt
 		--requirement $<
 	@$@/bin/pip install \
 		--upgrade pip
+	@touch $@
 
 .PHONY: clean
 clean:
