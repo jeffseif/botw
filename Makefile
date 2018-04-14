@@ -2,8 +2,9 @@
 
 DAT = dat
 PRETTY = ./botw/pretty
-PYTHON = $(which python3)
+PYTHON = $(shell which python3)
 JSON_TO_MOD = $(shell basename $@ .json)
+VENV = venv/
 mkdir = mkdir -p $(dir $@)
 
 .PHONY: all
@@ -12,7 +13,7 @@ all: armors.stdout weapons.stdout
 %.stdout: $(DAT)/%.json
 	@cat $^ | $(PRETTY)
 
-$(DAT)/%.json: venv $(DAT)/ botw/main.py
+$(DAT)/%.json: $(VENV) $(DAT)/ botw/main.py
 	@$</bin/python \
 		-m botw.main $(JSON_TO_MOD) > $@
 
@@ -25,7 +26,7 @@ $(DAT)/: gz/$(DAT).tar.gz
 		--file $< \
 		--directory $@
 
-venv: requirements.txt
+$(VENV): requirements.txt
 	@virtualenv \
         	--no-site-packages \
 		--python=$(PYTHON) \
@@ -39,4 +40,6 @@ venv: requirements.txt
 .PHONY: clean
 clean:
 	@rm -rf $(DAT)/
-	@rm -rf venv/
+	@rm -rf $(VENV)
+	@find . -name '*.pyc' -delete
+	@find . -name '__pycache__' -type d -delete
