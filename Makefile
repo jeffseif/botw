@@ -1,17 +1,22 @@
 .SECONDARY:
 
-DAT = dat
-PRETTY = ./botw/pretty
-PYTHON = $(shell which python3)
 JSON_TO_MOD = $(shell basename $@ .json)
-VENV = venv/
+PYTHON = $(shell which python3)
 mkdir = mkdir -p $(dir $@)
 
+DAT = dat
+JSON_TO_STDOUT = ./botw/json_to_stdout.sh
+JSON_TO_MARKDOWN = ./botw/json_to_markdown.sh
+VENV = venv/
+
 .PHONY: all
-all: armors.stdout weapons.stdout
+all: armors.stdout weapons.stdout armors.md weapons.md
 
 %.stdout: $(DAT)/%.json
-	@cat $^ | $(PRETTY)
+	@cat $< | $(JSON_TO_STDOUT)
+
+%.md: $(DAT)/%.json
+	@cat $< | $(JSON_TO_MARKDOWN) > $@
 
 $(DAT)/%.json: $(VENV) $(DAT)/ botw/main.py
 	@$</bin/python \

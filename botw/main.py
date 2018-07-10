@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 
 DAT = './dat/'
-MISSING = '<MISSING NAME>'
 
 
 class InvalidActorException(Exception):
@@ -193,7 +192,7 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Base Attacks',
         (
-            (NAMES.get(weapon.id, MISSING), weapon.attack)
+            (NAMES.get(weapon.id, weapon.id), weapon.attack)
             for weapon in weapons
         ),
     )
@@ -201,7 +200,7 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Max Attacks',
         (
-            (NAMES.get(weapon.id, MISSING), weapon.max_attack)
+            (NAMES.get(weapon.id, weapon.id), weapon.max_attack)
             for weapon in weapons
         ),
     )
@@ -209,7 +208,7 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Durabilities',
         (
-            (NAMES.get(weapon.id, MISSING), weapon.durability)
+            (NAMES.get(weapon.id, weapon.id), weapon.durability)
             for weapon in weapons
         ),
     )
