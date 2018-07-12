@@ -21,6 +21,10 @@ class Actor:
             for attr in sorted(self.__dict__)
         )
 
+    @property
+    def name(self):
+        return NAMES.get(self.id, self.id)
+
     @classmethod
     def from_xml(cls, the_xml):
         try:
@@ -100,6 +104,20 @@ class Weapon(Actor):
         )
 
 
+class Enemy(Actor):
+
+    def __bool__(self):
+        return True
+
+    @classmethod
+    def _from_xml(cls, the_xml):
+        return cls(
+            rank = int(the_xml.get('enemyRank')),
+            hp = int(the_xml.get('generalLife')),
+            id = the_xml.find('name').text,
+        )
+
+
 def get_names():
     with open('{:s}botw_names.json'.format(DAT), 'rt') as f:
         return json.load(f)
@@ -123,7 +141,7 @@ def get_actors(cls):
         actor
         for actor in map(cls.from_xml, actors)
         if actor is not None
-        if actor
+        if bool(actor)
     ]
 
 
@@ -192,7 +210,7 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Base Attacks',
         (
-            (NAMES.get(weapon.id, weapon.id), weapon.attack)
+            (weapon.name, weapon.attack)
             for weapon in weapons
         ),
     )
@@ -200,7 +218,7 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Max Attacks',
         (
-            (NAMES.get(weapon.id, weapon.id), weapon.max_attack)
+            (weapon.name, weapon.max_attack)
             for weapon in weapons
         ),
     )
@@ -208,9 +226,19 @@ def report_weapons(weapons):
     yield from summarize(
         'Weapon Durabilities',
         (
-            (NAMES.get(weapon.id, weapon.id), weapon.durability)
+            (weapon.name, weapon.durability)
             for weapon in weapons
         ),
+    )
+
+
+def report_enemies(enemies):
+    yield from summarize(
+        'Enemy Healths',
+        (
+            (enemy.name, enemy.hp)
+            for enemy in enemies
+        )
     )
 
 
@@ -223,6 +251,9 @@ if __name__ == '__main__':
     elif module == 'weapons':
         cls = Weapon
         reporter = report_weapons
+    elif module == 'enemies':
+        cls = Enemy
+        reporter = report_enemies
     else:
         exit()
 

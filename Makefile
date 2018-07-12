@@ -10,7 +10,7 @@ JSON_TO_MARKDOWN = ./botw/json_to_markdown.sh
 VENV = venv/
 
 .PHONY: all
-all: armors.stdout weapons.stdout armors.md weapons.md
+all: armors.stdout enemies.stdout weapons.stdout armors.md enemies.md weapons.md
 
 %.stdout: $(DAT)/%.json
 	@cat $< | $(JSON_TO_STDOUT)
