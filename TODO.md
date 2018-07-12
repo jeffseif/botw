@@ -1,1 +1,2 @@
 - Extract cooking ingredient stats [reddit post](https://www.reddit.com/r/zelda/comments/61ccva/botw_cooking_math_complete/)
+- Extract shop data
