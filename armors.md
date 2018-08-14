@@ -1,12 +1,12 @@
 # Full Ancient armor
 
-- 145: Ancient Spring
-- 130: Ancient Gear
-- 110: Ancient Shaft
-- 44: Ancient Core
-- 40: Ancient Screw
-- 14: Giant Ancient Core
-- 7: Star Fragment
+- 90: Ancient Gear
+- 65: Ancient Spring
+- 50: Ancient Shaft
+- 24: Ancient Core
+- 20: Ancient Screw
+- 6: Giant Ancient Core
+- 3: Star Fragment
 
 # Full Climb armor
 
@@ -162,11 +162,11 @@
 
 # All armors at 1 stars
 
-- 35: Ancient Screw
-- 35: Ancient Spring
 - 30: Acorn
 - 20: Hightail Lizard
 - 18: Bokoblin Guts
+- 15: Ancient Screw
+- 15: Ancient Spring
 - 15: Bokoblin Horn
 - 15: Chuchu Jelly
 - 15: Luminous Stone
@@ -189,8 +189,8 @@
 
 # All armors at 2 stars
 
-- 105: Ancient Spring
-- 70: Ancient Gear
+- 45: Ancient Spring
+- 30: Ancient Gear
 - 24: Bokoblin Horn
 - 24: Luminous Stone
 - 20: Swift Carrot
@@ -224,9 +224,8 @@
 
 # All armors at 3 stars
 
-- 105: Ancient Shaft
+- 45: Ancient Shaft
 - 39: Ice Keese Wing
-- 35: Ancient Core
 - 30: Bokoblin Fang
 - 30: Hot-Footed Frog
 - 30: Luminous Stone
@@ -234,6 +233,7 @@
 - 24: Fire Keese Wing
 - 24: Silent Shroom
 - 23: Lizalfos Tail
+- 15: Ancient Core
 - 15: Bokoblin Guts
 - 15: Energetic Rhino Beetle
 - 15: Hearty Bass
@@ -274,10 +274,10 @@
 - 15: Ruby
 - 15: Sapphire
 - 15: Smotherwing Butterfly
-- 14: Giant Ancient Core
-- 10: Star Fragment
+- 6: Giant Ancient Core
 - 6: Hinox Guts
 - 6: Lynel Hoof
+- 6: Star Fragment
 - 5: Shard of Dinraal's Horn
 - 4: Molduga Guts
 - 3: Shard of Farosh's Horn
@@ -286,20 +286,18 @@
 
 # All armors
 
-- 145: Ancient Spring
 - 138: Luminous Stone
-- 130: Ancient Gear
-- 110: Ancient Shaft
+- 90: Ancient Gear
 - 78: Bokoblin Guts
 - 75: Swift Violet
+- 65: Ancient Spring
 - 53: Lizalfos Tail
+- 50: Ancient Shaft
 - 48: Ice Keese Wing
 - 45: Amber
 - 45: Bokoblin Fang
 - 45: Opal
 - 45: Yellow Lizalfos Tail
-- 44: Ancient Core
-- 40: Ancient Screw
 - 39: Bokoblin Horn
 - 39: Fire Keese Wing
 - 39: Icy Lizalfos Tail
@@ -312,6 +310,7 @@
 - 30: Stealthfin Trout
 - 30: Topaz
 - 27: Moblin Guts
+- 24: Ancient Core
 - 24: Blue Nightshade
 - 24: Lynel Hoof
 - 24: Red Chuchu Jelly
@@ -319,6 +318,7 @@
 - 24: Smotherwing Butterfly
 - 24: White Chuchu Jelly
 - 24: Yellow Chuchu Jelly
+- 20: Ancient Screw
 - 20: Swift Carrot
 - 18: Lynel Guts
 - 15: Chuchu Jelly
@@ -336,18 +336,18 @@
 - 15: Sunshroom
 - 15: Voltfruit
 - 15: Zapshroom
-- 14: Giant Ancient Core
 - 12: Fireproof Lizard
 - 12: Lynel Horn
 - 12: Moblin Fang
 - 12: Molduga Guts
 - 10: Hinox Guts
-- 10: Star Fragment
 - 9: Keese Eyeball
 - 9: Keese Wing
 - 9: Lizalfos Horn
 - 9: Warm Safflina
+- 6: Giant Ancient Core
 - 6: Moblin Horn
+- 6: Star Fragment
 - 5: Octo Balloon
 - 5: Octorok Eyeball
 - 5: Octorok Tentacle

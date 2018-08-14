@@ -58,6 +58,7 @@ class Armor(Actor):
         return (
             bool(self.series_name.strip())
             and not 'Amiibo' in self.series_name
+            and not 'Divine Helm' in self.name
             and self.series_name not in self.JEWELRY_SERIES
         )
 
