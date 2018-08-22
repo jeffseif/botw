@@ -2,6 +2,11 @@
 
 Breath of the Wild Data Mining
 
+## Extracts
+
+- [Ingredients required for upgrading armors](./armors.md)
+- [Attacks and durabililties for weapons](./weapons.md)
+
 ## Maps
 
 - [Number of shrines per region](./img/shrine-count.jpg)
@@ -10,11 +15,11 @@ Breath of the Wild Data Mining
 - [Talus locations](./img/talus-map.jpg)
 - [Hynox locations](./img/hynox-map.jpg)
 - [Molduga locations](./img/molduga-map.jpg)
+- [Zora monument locations](./img/zora-monuments-map.jpg)
 
-## Extracts
-
-- [Ingredients required for upgrading armors](./armors.md)
-- [Attacks and durabililties for weapons](./weapons.md)
+## Lists
+- [Side quests](https://www.reddit.com/r/Breath_of_the_Wild/comments/61vpg1/comment/dfht4a1/)
+- [Shrine quests](https://www.reddit.com/r/Breath_of_the_Wild/comments/5z2y4l/list_of_shrine_quests/)
 
 ## Recipes
 
